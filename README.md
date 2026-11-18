@@ -1,6 +1,6 @@
 # Supermodel REDUX
 
-[Windows Workbench releases](../../releases) | [V941 manual and shortcuts](MANUAL-V941.md)
+[Windows Workbench releases](../../releases) | [V942 manual and shortcuts](MANUAL-V942.md)
 
 [Support on Ko-fi](https://ko-fi.com/aveycole) | [Buy Me a Coffee](https://buymeacoffee.com/aveycole)
 
