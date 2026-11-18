@@ -48,8 +48,12 @@ resources="$check/Redux-Mac-V942/Supermodel REDUX Workbench.app/Contents/Resourc
 runtime="$resources/runtime"
 # Remove the original bundle so fixtures cannot resolve to the build location.
 mv "$folder" "$RUNNER_TEMP/original-package"
-# Unlink Homebrew tools so child executables must resolve within the app.
-brew unlink m68k-elf-gcc m68k-elf-binutils
+# Hide the installed cross-toolchain from the relocatability check. The
+# Homebrew formula compiled in absolute fallback paths to its assembler and linker.
+for formula in m68k-elf-gcc m68k-elf-binutils; do
+  keg="$(cd "$(brew --prefix "$formula")" && pwd -P)"
+  mv "$keg" "$RUNNER_TEMP/$formula-keg"
+done
 env -i HOME="$HOME" PATH=/usr/bin:/bin:/usr/sbin:/sbin REDUX_STATE="$check/user state" \
   SM_M68K_CROSS="$runtime/toolchain/bin/m68k-elf-" PYTHONNOUSERSITE=1 \
   "$runtime/python/bin/python3" -B .release-mac/smoke-mac-runtime.py "$resources" "$check/test build"

@@ -28,6 +28,7 @@ def configure():
     cross_bin = str(Path(cross).parent)
     os.environ.update(REDUX_PORTABLE='1', REDUX_REVISION=VERSION, REDUX_STATE=str(STATE),
                       REDUX_REFERENCE=str(REFERENCE), SM_M68K_CROSS=cross,
+                      COMPILER_PATH=str(ROOT / 'runtime/toolchain/m68k-elf/bin'),
                       TEMP=str(SCRATCH), TMP=str(SCRATCH), TMPDIR=str(SCRATCH),
                       PATH=cross_bin + os.pathsep + path)
     sys.path.insert(0, str(TOOLS))

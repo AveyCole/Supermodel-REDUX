@@ -13,9 +13,10 @@ resources, work = map(Path, sys.argv[1:])
 tools = resources / 'next-os/tools'
 sys.path.insert(0, str(tools))
 from macos_next_usb import load_bridge
-from portable_profile import compile_objects, link_firmware, parse, run
+from build_flasher_profile import compile_objects, link_firmware, parse, run
 
 load_bridge()
+os.environ['COMPILER_PATH'] = str(resources / 'runtime/toolchain/m68k-elf/bin')
 config = dict(schema='supermodel-next-config/v2', target='model-cycles', core='required',
               state='selection-not-compiled', machines=['stock-metal', 'stock-kick', 'sample-wizard'],
               effects=['delay', 'reverb'], features=['stock-mask', 'usb6', 'master-retrig'])
