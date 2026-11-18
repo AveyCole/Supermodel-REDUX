@@ -29,9 +29,10 @@ done
   -framework CoreFoundation "$resources/next-os/tools/macos_coremidi.c" -o "$runtime/redux-coremidi.dylib"
 cp .release-mac/Workbench "$app/Contents/MacOS/Workbench"
 chmod 755 "$app/Contents/MacOS/Workbench"
-cp .release-mac/macos_next_usb.py "$resources/next-os/tools/macos_next_usb.py"
+cp .release-mac/macos_next_usb.py "$resources/next-os/tools/next_usb.py"
 cp .release-mac/macos_workbench_entry.py "$resources/macos_workbench_entry.py"
 cp .release-mac/Manual.md "$folder/Manual.md"
+cp .release-mac/Manual.md "$resources/next-os/flasher-prototype/dist-431/Supermodel-REDUX-Manual.md"
 cp '.release-mac/Start Here.txt' "$folder/Start Here.txt"
 
 # Sign and test after relocation, with a minimal user environment.

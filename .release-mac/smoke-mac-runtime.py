@@ -12,7 +12,7 @@ import fcntl
 resources, work = map(Path, sys.argv[1:])
 tools = resources / 'next-os/tools'
 sys.path.insert(0, str(tools))
-from macos_next_usb import load_bridge
+from next_usb import load_bridge
 from build_flasher_profile import compile_objects, link_firmware, parse, run
 
 load_bridge()
