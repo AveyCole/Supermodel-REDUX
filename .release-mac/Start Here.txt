@@ -1,0 +1,14 @@
+Supermodel REDUX Workbench V942 for Mac
+
+1. Extract the ZIP for Apple Silicon or Intel. Requires macOS 15 or later.
+2. Double-click Supermodel REDUX Workbench.app in Finder.
+3. Select the official Model:Cycles OS 1.13 SysEx from Elektron when prompted.
+4. Choose your features, then click Build. Connect the Cycles over USB to flash.
+
+If macOS blocks the first launch, open System Settings > Privacy & Security
+and choose Open Anyway for Workbench.
+
+Stop playback and choose CYC for Transfer on the Cycles before flashing.
+Press LEVEL/DATA on the Cycles to confirm the install when prompted.
+
+Read Manual.md for the full feature and shortcut guide.

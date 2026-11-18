@@ -1,0 +1,40 @@
+#!/bin/sh
+set -eu
+
+resources="$(cd "$(dirname "$0")/../Resources" && pwd)"
+version="$(cat "$resources/revision.txt")"
+runtime="$resources/runtime"
+export SM_M68K_CROSS="$runtime/toolchain/bin/m68k-elf-"
+export PATH="$runtime/toolchain/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export REDUX_STATE="$HOME/Library/Application Support/Supermodel REDUX/$version"
+export PYTHONDONTWRITEBYTECODE=1
+export PYTHONNOUSERSITE=1
+
+alert() {
+  /usr/bin/osascript - "$1" <<'APPLESCRIPT'
+on run argv
+  display alert "Supermodel REDUX Workbench" message (item 1 of argv) as warning
+end run
+APPLESCRIPT
+}
+
+python="$runtime/python/bin/python3"
+if [ ! -x "$python" ] || [ ! -x "${SM_M68K_CROSS}gcc" ]; then
+  alert "The Workbench app is incomplete. Extract the entire ZIP for your Mac and reopen the app from Finder."
+  exit 1
+fi
+
+entry="$resources/macos_workbench_entry.py"
+reference="$REDUX_STATE/reference/model-cycles_OS1.13.syx"
+if [ ! -f "$reference" ]; then
+  official="$(/usr/bin/osascript -e 'POSIX path of (choose file with prompt "Choose the official Model:Cycles OS 1.13 .syx from Elektron to enable Build and Flash." default location (path to downloads folder))' 2>/dev/null || true)"
+  if [ -n "$official" ]; then
+    if ! result="$("$python" -B "$entry" --import-reference "$official" 2>&1)"; then
+      alert "The reference file could not be imported. Choose the official Model:Cycles OS 1.13 .syx and open Workbench again.\n\n$result"
+    fi
+  fi
+fi
+if ! result="$("$python" -B "$entry" --launch 2>&1)"; then
+  alert "$result"
+  exit 1
+fi

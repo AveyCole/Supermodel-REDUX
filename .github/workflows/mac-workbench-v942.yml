@@ -1,0 +1,33 @@
+name: Package standalone Mac Workbench V942
+on:
+  push:
+    branches: [mac-workbench-v942]
+    paths: ['.release-mac/**', '.github/workflows/mac-workbench-v942.yml']
+permissions:
+  contents: read
+jobs:
+  package:
+    name: Mac Workbench (${{ matrix.label }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 14
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {runner: macos-15, arch: aarch64, label: Apple-Silicon}
+          - {runner: macos-15-intel, arch: x86_64, label: Intel}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch the published V942 Workbench inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download v942 --repo "$GITHUB_REPOSITORY" --pattern Supermodel-Redux-Mac-V942.zip --dir "$RUNNER_TEMP"
+      - name: Package and smoke-test Workbench
+        run: bash .release-mac/package-mac.sh "${{ matrix.arch }}" "${{ matrix.label }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Mac-Workbench-${{ matrix.label }}
+          path: dist/*.zip
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
